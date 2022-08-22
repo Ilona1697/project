@@ -1,7 +1,29 @@
 import React from 'react';
 import s from './ContactItem.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
-const ContactItem = () => {
+const element = <FontAwesomeIcon icon={faStar} />
+
+const ContactItem = ({ name, status, phone, email, avatar, gender, favourite, onChangeStatus, addFavourites }) => {
+    const IMG_AVATAR = `https://randomuser.me/api/portraits/${gender}/${avatar}.jpg`
+    let styleStatus;
+    switch (status) {
+        case 'Work':
+            styleStatus = 'lab lab-success';
+            break;
+        case 'Family':
+            styleStatus = 'lab lab-primary';
+            break;
+        case 'Private':
+            styleStatus = 'lab lab-danger';
+            break;
+        case 'Friends':
+            styleStatus = 'lab lab-warning';
+            break;
+        default:
+            break;
+    }
     return (
         <div className="unit">
             <div className="field name">
@@ -11,16 +33,17 @@ const ContactItem = () => {
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"></svg>
 
                 </div>
+                <FontAwesomeIcon icon={faStar} onClick={addFavourites} className={favourite ? 'active' : ''} />
                 <div>
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="image" className="avatar" /> Alexander Verdnam
+                    <img src={IMG_AVATAR} alt="image" className="avatar" /> {name}
                 </div>
-                <div className="lab lab-warning">Friends</div>
+                <div className={styleStatus} onClick={onChangeStatus}>{status}</div>
             </div>
             <div className="field phone">
-                +1-800-600-9898
+                {phone}
             </div>
             <div className="field email">
-                example@gmail.com
+                {email}
             </div>
         </div>
     );

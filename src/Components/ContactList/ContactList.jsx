@@ -4,7 +4,13 @@ import s from './ContactList.css';
 //Import components
 import ContactItem from '../ContactItem/ContactItem';
 
-const ContactList = () => {
+const ContactList = ({ list, onChangeStatus, addFavourites }) => {
+    let listItem = list.map(contact => {
+        return (
+            <ContactItem {...contact} key={contact.id} onChangeStatus={() => onChangeStatus(contact.id)} addFavourites={() => addFavourites(contact.id)} />
+        );
+    });
+
     return (
         <div className="col-lg-9 col-md-8 col-sm-12">
             <div className="contacts-list">
@@ -25,7 +31,7 @@ const ContactList = () => {
 
                         </div>
                     </div>
-                    <ContactItem />
+                    {listItem}
                 </div>
             </div>
         </div>
