@@ -1,7 +1,12 @@
 import React from 'react';
 import s from './Header.css';
-
-const Header = () => {
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { UpdateSearch } from '../../Actions/ContactListAction';
+const Header = ({ UpdateSearch }) => {
+    const onSortList = (value) => {
+        UpdateSearch(value);
+    }
     return (
         <div className="container">
             <div className="row">
@@ -16,16 +21,23 @@ const Header = () => {
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                 </button>
-                                <a className="navbar-brand" href="#">Contact List</a>
+                                <Link className="navbar-brand" to="/">Contact List</Link>
                             </div>
 
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul className="nav navbar-nav">
-                                    <li className="active"><a href="#">Add new <span className="sr-only">(current)</span></a></li>
+                                    <li className="active">
+                                        <Link to="/new-contact">Add new <span className="sr-only">(current)</span></Link>
+                                    </li>
                                 </ul>
                                 <div className="navbar-form navbar-right">
                                     <div className="form-group">
-                                        <input type="text" className="form-control" placeholder="Search" />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Search"
+                                            onKeyUp={(e) => onSortList(e.target.value)}
+                                        />
                                     </div>
                                 </div>
 
@@ -38,5 +50,11 @@ const Header = () => {
 
     );
 }
-
-export default Header;
+const mapStateToProps = ({ ContactListReducer }) => {
+    const { search } = ContactListReducer;
+    return { search };
+};
+const mapDispatchToProps = {
+    UpdateSearch
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
